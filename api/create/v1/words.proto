@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package api.create.v1;
+
+option go_package = "create-center/api/create/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.create.v1";
+
+service Words {
+  rpc CreateWords (CreateWordsRequest) returns (CreateWordsReply);
+  rpc UpdateWords (UpdateWordsRequest) returns (UpdateWordsReply);
+  rpc DeleteWords (DeleteWordsRequest) returns (DeleteWordsReply);
+  rpc GetWords (GetWordsRequest) returns (GetWordsReply);
+  rpc ListWords (ListWordsDTO) returns (ListWordsVO);
+}
+
+message CreateWordsRequest {}
+message CreateWordsReply {}
+
+message UpdateWordsRequest {}
+message UpdateWordsReply {}
+
+message DeleteWordsRequest {}
+message DeleteWordsReply {}
+
+message GetWordsRequest {}
+message GetWordsReply {}
+
+message ListWordsDTO {
+  int64 id = 1;
+  string address = 2;
+  optional int32 isPublish = 3;
+  string pollRank = 4;
+  int32 pageNum = 5;
+  int32 pageSize = 6;
+}
+message ListWordsVO {
+  int64 total = 1;
+  int32 pageNum = 2;
+  int32 pageSize = 3;
+  repeated WordsInfo wordsInfo = 4;
+}
+
+message WordsInfo{
+  int64 id = 1;
+  string theme = 2;
+  int32 is_publish = 3;
+  int32 poll = 4;
+  string publishTime = 5;
+  string address = 6;
+  string creation_picture = 7;
+  string prompt = 8;
+}
