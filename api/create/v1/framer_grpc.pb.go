@@ -22,9 +22,9 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type FramerClient interface {
-	CreateFramer(ctx context.Context, in *CreateFramerRequest, opts ...grpc.CallOption) (*CreateFramerReply, error)
-	UpdateFramer(ctx context.Context, in *UpdateFramerRequest, opts ...grpc.CallOption) (*UpdateFramerReply, error)
-	GetFramer(ctx context.Context, in *GetFramerRequest, opts ...grpc.CallOption) (*GetFramerReply, error)
+	CreateFramer(ctx context.Context, in *CreateFramerDTO, opts ...grpc.CallOption) (*CreateFramerVO, error)
+	UpdateFramer(ctx context.Context, in *UpdateFramerDTO, opts ...grpc.CallOption) (*UpdateFramerVO, error)
+	GetFramer(ctx context.Context, in *GetFramerDTO, opts ...grpc.CallOption) (*GetFramerVO, error)
 	ListFramer(ctx context.Context, in *ListFramerDTO, opts ...grpc.CallOption) (*ListFramerVO, error)
 }
 
@@ -36,8 +36,8 @@ func NewFramerClient(cc grpc.ClientConnInterface) FramerClient {
 	return &framerClient{cc}
 }
 
-func (c *framerClient) CreateFramer(ctx context.Context, in *CreateFramerRequest, opts ...grpc.CallOption) (*CreateFramerReply, error) {
-	out := new(CreateFramerReply)
+func (c *framerClient) CreateFramer(ctx context.Context, in *CreateFramerDTO, opts ...grpc.CallOption) (*CreateFramerVO, error) {
+	out := new(CreateFramerVO)
 	err := c.cc.Invoke(ctx, "/api.create.v1.Framer/CreateFramer", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -45,8 +45,8 @@ func (c *framerClient) CreateFramer(ctx context.Context, in *CreateFramerRequest
 	return out, nil
 }
 
-func (c *framerClient) UpdateFramer(ctx context.Context, in *UpdateFramerRequest, opts ...grpc.CallOption) (*UpdateFramerReply, error) {
-	out := new(UpdateFramerReply)
+func (c *framerClient) UpdateFramer(ctx context.Context, in *UpdateFramerDTO, opts ...grpc.CallOption) (*UpdateFramerVO, error) {
+	out := new(UpdateFramerVO)
 	err := c.cc.Invoke(ctx, "/api.create.v1.Framer/UpdateFramer", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -54,8 +54,8 @@ func (c *framerClient) UpdateFramer(ctx context.Context, in *UpdateFramerRequest
 	return out, nil
 }
 
-func (c *framerClient) GetFramer(ctx context.Context, in *GetFramerRequest, opts ...grpc.CallOption) (*GetFramerReply, error) {
-	out := new(GetFramerReply)
+func (c *framerClient) GetFramer(ctx context.Context, in *GetFramerDTO, opts ...grpc.CallOption) (*GetFramerVO, error) {
+	out := new(GetFramerVO)
 	err := c.cc.Invoke(ctx, "/api.create.v1.Framer/GetFramer", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -76,9 +76,9 @@ func (c *framerClient) ListFramer(ctx context.Context, in *ListFramerDTO, opts .
 // All implementations must embed UnimplementedFramerServer
 // for forward compatibility
 type FramerServer interface {
-	CreateFramer(context.Context, *CreateFramerRequest) (*CreateFramerReply, error)
-	UpdateFramer(context.Context, *UpdateFramerRequest) (*UpdateFramerReply, error)
-	GetFramer(context.Context, *GetFramerRequest) (*GetFramerReply, error)
+	CreateFramer(context.Context, *CreateFramerDTO) (*CreateFramerVO, error)
+	UpdateFramer(context.Context, *UpdateFramerDTO) (*UpdateFramerVO, error)
+	GetFramer(context.Context, *GetFramerDTO) (*GetFramerVO, error)
 	ListFramer(context.Context, *ListFramerDTO) (*ListFramerVO, error)
 	mustEmbedUnimplementedFramerServer()
 }
@@ -87,13 +87,13 @@ type FramerServer interface {
 type UnimplementedFramerServer struct {
 }
 
-func (UnimplementedFramerServer) CreateFramer(context.Context, *CreateFramerRequest) (*CreateFramerReply, error) {
+func (UnimplementedFramerServer) CreateFramer(context.Context, *CreateFramerDTO) (*CreateFramerVO, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateFramer not implemented")
 }
-func (UnimplementedFramerServer) UpdateFramer(context.Context, *UpdateFramerRequest) (*UpdateFramerReply, error) {
+func (UnimplementedFramerServer) UpdateFramer(context.Context, *UpdateFramerDTO) (*UpdateFramerVO, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateFramer not implemented")
 }
-func (UnimplementedFramerServer) GetFramer(context.Context, *GetFramerRequest) (*GetFramerReply, error) {
+func (UnimplementedFramerServer) GetFramer(context.Context, *GetFramerDTO) (*GetFramerVO, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetFramer not implemented")
 }
 func (UnimplementedFramerServer) ListFramer(context.Context, *ListFramerDTO) (*ListFramerVO, error) {
@@ -113,7 +113,7 @@ func RegisterFramerServer(s grpc.ServiceRegistrar, srv FramerServer) {
 }
 
 func _Framer_CreateFramer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateFramerRequest)
+	in := new(CreateFramerDTO)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -125,13 +125,13 @@ func _Framer_CreateFramer_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: "/api.create.v1.Framer/CreateFramer",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FramerServer).CreateFramer(ctx, req.(*CreateFramerRequest))
+		return srv.(FramerServer).CreateFramer(ctx, req.(*CreateFramerDTO))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Framer_UpdateFramer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateFramerRequest)
+	in := new(UpdateFramerDTO)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -143,13 +143,13 @@ func _Framer_UpdateFramer_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: "/api.create.v1.Framer/UpdateFramer",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FramerServer).UpdateFramer(ctx, req.(*UpdateFramerRequest))
+		return srv.(FramerServer).UpdateFramer(ctx, req.(*UpdateFramerDTO))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Framer_GetFramer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetFramerRequest)
+	in := new(GetFramerDTO)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -161,7 +161,7 @@ func _Framer_GetFramer_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: "/api.create.v1.Framer/GetFramer",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FramerServer).GetFramer(ctx, req.(*GetFramerRequest))
+		return srv.(FramerServer).GetFramer(ctx, req.(*GetFramerDTO))
 	}
 	return interceptor(ctx, in, info, handler)
 }

@@ -7,20 +7,40 @@ option java_multiple_files = true;
 option java_package = "api.create.v1";
 
 service Framer {
-  rpc CreateFramer (CreateFramerRequest) returns (CreateFramerReply);
-  rpc UpdateFramer (UpdateFramerRequest) returns (UpdateFramerReply);
-  rpc GetFramer (GetFramerRequest) returns (GetFramerReply);
+  rpc CreateFramer (CreateFramerDTO) returns (CreateFramerVO);
+  rpc UpdateFramer (UpdateFramerDTO) returns (UpdateFramerVO);
+  rpc GetFramer (GetFramerDTO) returns (GetFramerVO);
   rpc ListFramer (ListFramerDTO) returns (ListFramerVO);
 }
 
-message CreateFramerRequest {}
-message CreateFramerReply {}
+message CreateFramerDTO {
+  string address = 1;
+  string insgramAccount = 2;
+}
+message CreateFramerVO {
+  int64 id = 1;
+}
 
-message UpdateFramerRequest {}
-message UpdateFramerReply {}
+message UpdateFramerDTO {
+  string address = 1;
+  optional string insgramAccount = 2;
+  optional int32 creationNumber = 3;
+  optional int32 maxPoll = 4;
+  optional int32 credit = 5;
+}
+message UpdateFramerVO {
+  string address = 1;
+}
 
-message GetFramerRequest {}
-message GetFramerReply {}
+message GetFramerDTO {
+  string address = 1;
+}
+message GetFramerVO {
+  string address = 1;
+  int32 creationNumber = 2;
+  int32 maxPoll = 3;
+  int32 credit = 4;
+}
 
 message ListFramerDTO {
   string address = 1;

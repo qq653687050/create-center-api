@@ -27,6 +27,8 @@ type CreationActivityClient interface {
 	DeleteCreationActivity(ctx context.Context, in *DeleteCreationActivityRequest, opts ...grpc.CallOption) (*DeleteCreationActivityReply, error)
 	GetCreationActivity(ctx context.Context, in *GetCreationActivityDTO, opts ...grpc.CallOption) (*GetCreationActivityVO, error)
 	ListCreationActivity(ctx context.Context, in *ListCreationActivityDTO, opts ...grpc.CallOption) (*ListCreationActivityVO, error)
+	AddApplyNum(ctx context.Context, in *AddApplyNumDTO, opts ...grpc.CallOption) (*AddApplyNumVO, error)
+	CanCreateActivityList(ctx context.Context, in *CanCreateActivityDTO, opts ...grpc.CallOption) (*CanCreateActivityVO, error)
 }
 
 type creationActivityClient struct {
@@ -82,6 +84,24 @@ func (c *creationActivityClient) ListCreationActivity(ctx context.Context, in *L
 	return out, nil
 }
 
+func (c *creationActivityClient) AddApplyNum(ctx context.Context, in *AddApplyNumDTO, opts ...grpc.CallOption) (*AddApplyNumVO, error) {
+	out := new(AddApplyNumVO)
+	err := c.cc.Invoke(ctx, "/api.create.v1.CreationActivity/AddApplyNum", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *creationActivityClient) CanCreateActivityList(ctx context.Context, in *CanCreateActivityDTO, opts ...grpc.CallOption) (*CanCreateActivityVO, error) {
+	out := new(CanCreateActivityVO)
+	err := c.cc.Invoke(ctx, "/api.create.v1.CreationActivity/CanCreateActivityList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CreationActivityServer is the server API for CreationActivity service.
 // All implementations must embed UnimplementedCreationActivityServer
 // for forward compatibility
@@ -91,6 +111,8 @@ type CreationActivityServer interface {
 	DeleteCreationActivity(context.Context, *DeleteCreationActivityRequest) (*DeleteCreationActivityReply, error)
 	GetCreationActivity(context.Context, *GetCreationActivityDTO) (*GetCreationActivityVO, error)
 	ListCreationActivity(context.Context, *ListCreationActivityDTO) (*ListCreationActivityVO, error)
+	AddApplyNum(context.Context, *AddApplyNumDTO) (*AddApplyNumVO, error)
+	CanCreateActivityList(context.Context, *CanCreateActivityDTO) (*CanCreateActivityVO, error)
 	mustEmbedUnimplementedCreationActivityServer()
 }
 
@@ -112,6 +134,12 @@ func (UnimplementedCreationActivityServer) GetCreationActivity(context.Context, 
 }
 func (UnimplementedCreationActivityServer) ListCreationActivity(context.Context, *ListCreationActivityDTO) (*ListCreationActivityVO, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListCreationActivity not implemented")
+}
+func (UnimplementedCreationActivityServer) AddApplyNum(context.Context, *AddApplyNumDTO) (*AddApplyNumVO, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddApplyNum not implemented")
+}
+func (UnimplementedCreationActivityServer) CanCreateActivityList(context.Context, *CanCreateActivityDTO) (*CanCreateActivityVO, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CanCreateActivityList not implemented")
 }
 func (UnimplementedCreationActivityServer) mustEmbedUnimplementedCreationActivityServer() {}
 
@@ -216,6 +244,42 @@ func _CreationActivity_ListCreationActivity_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CreationActivity_AddApplyNum_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddApplyNumDTO)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CreationActivityServer).AddApplyNum(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.create.v1.CreationActivity/AddApplyNum",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CreationActivityServer).AddApplyNum(ctx, req.(*AddApplyNumDTO))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CreationActivity_CanCreateActivityList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CanCreateActivityDTO)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CreationActivityServer).CanCreateActivityList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.create.v1.CreationActivity/CanCreateActivityList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CreationActivityServer).CanCreateActivityList(ctx, req.(*CanCreateActivityDTO))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CreationActivity_ServiceDesc is the grpc.ServiceDesc for CreationActivity service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -242,6 +306,14 @@ var CreationActivity_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListCreationActivity",
 			Handler:    _CreationActivity_ListCreationActivity_Handler,
+		},
+		{
+			MethodName: "AddApplyNum",
+			Handler:    _CreationActivity_AddApplyNum_Handler,
+		},
+		{
+			MethodName: "CanCreateActivityList",
+			Handler:    _CreationActivity_CanCreateActivityList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

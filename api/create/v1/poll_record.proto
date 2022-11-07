@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package api.create.v1;
+
+option go_package = "create-center-api/api/create/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.create.v1";
+
+service PollRecord {
+  rpc CreatePollRecord (PollRecordDTO) returns (PollRecordVO);
+  rpc DeletePollRecord (PollRecordDTO) returns (PollRecordVO);
+  rpc GetPollRecord (PollRecordDTO) returns (PollRecordInfo);
+  rpc ListPollRecord (ListPollRecordDTO) returns (ListPollRecordVO);
+}
+
+message PollRecordDTO {
+  int64 wordsId=1;//作品id
+  string address=2;//地址
+}
+message PollRecordVO {
+  int64 id = 1;
+}
+
+message ListPollRecordDTO {
+  string address = 1;  //用户地址
+  repeated int64 wordsId = 2; //作品地址列表
+
+}
+message ListPollRecordVO {
+  repeated PollRecordInfo pollRecordInfo=1;
+}
+message PollRecordInfo{
+  int64 id = 1;  //点赞id
+  int64 wordsId = 2; //作品id
+  string address = 3; //地址
+}

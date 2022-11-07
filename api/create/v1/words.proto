@@ -8,23 +8,41 @@ option java_package = "api.create.v1";
 
 service Words {
   rpc CreateWords (CreateWordsRequest) returns (CreateWordsReply);
-  rpc UpdateWords (UpdateWordsRequest) returns (UpdateWordsReply);
+  rpc UpdateWordsPoll (UpdateWordsPollDTO) returns (UpdateWordsPollVO);
   rpc DeleteWords (DeleteWordsRequest) returns (DeleteWordsReply);
-  rpc GetWords (GetWordsRequest) returns (GetWordsReply);
+  rpc GetWords (GetWordsDTO) returns (GetWordsVO);
   rpc ListWords (ListWordsDTO) returns (ListWordsVO);
+  rpc ListWordsByIds (ListWordsByIdsDTO) returns (ListWordsVO);
 }
 
 message CreateWordsRequest {}
 message CreateWordsReply {}
 
-message UpdateWordsRequest {}
-message UpdateWordsReply {}
+message UpdateWordsPollDTO {
+  int64 id = 1;
+  int32 num = 2;
+}
+message UpdateWordsPollVO {
+  int64 id = 1;
+}
 
 message DeleteWordsRequest {}
 message DeleteWordsReply {}
 
-message GetWordsRequest {}
-message GetWordsReply {}
+message GetWordsDTO {
+  int64 id = 1;
+}
+message GetWordsVO {
+  int64 id = 1;
+  string theme = 2;
+  int32 isPublish = 3;
+  int64 creationActivityId = 4;
+  string advancedParameter = 5;
+  string creationPicture = 6;
+  string prompt = 7;
+  int32 promptPrivate = 8;
+  string address = 9;
+}
 
 message ListWordsDTO {
   int64 id = 1;
@@ -33,6 +51,9 @@ message ListWordsDTO {
   string pollRank = 4;
   int32 pageNum = 5;
   int32 pageSize = 6;
+  optional int64 creationActivityId = 7;
+  optional bool idRank = 8;
+  optional bool publishTimeRank = 9;
 }
 message ListWordsVO {
   int64 total = 1;
@@ -44,10 +65,16 @@ message ListWordsVO {
 message WordsInfo{
   int64 id = 1;
   string theme = 2;
-  int32 is_publish = 3;
+  int32 isPublish = 3;
   int32 poll = 4;
   string publishTime = 5;
   string address = 6;
-  string creation_picture = 7;
+  string creationPicture = 7;
   string prompt = 8;
+  int32 promptPrivate = 9;
+  string advancedParameter = 10;
+}
+
+message ListWordsByIdsDTO{
+  repeated string wordsIds = 1;
 }

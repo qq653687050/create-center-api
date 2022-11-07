@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package api.create.v1;
+
+option go_package = "create-center-api//api/create/v1;v1";
+option java_multiple_files = true;
+option java_package = ".api.create.v1";
+
+service ApplyRecord {
+  rpc CreateApplyRecord (CreateApplyRecordDTO) returns (CreateApplyRecordVO);
+  rpc UpdateApplyRecord (UpdateApplyRecordRequest) returns (UpdateApplyRecordReply);
+  rpc DeleteApplyRecord (DeleteApplyRecordRequest) returns (DeleteApplyRecordReply);
+  rpc GetApplyRecord (GetApplyRecordDTO) returns (GetApplyRecordVO);
+  rpc ListApplyRecord (ListApplyRecordDTO) returns (ListApplyRecordVO);
+}
+
+message CreateApplyRecordDTO {
+  int64 creationActivityId = 1;
+  string address = 2;
+}
+message CreateApplyRecordVO {
+  int64 id = 1;
+}
+
+message UpdateApplyRecordRequest {}
+message UpdateApplyRecordReply {}
+
+message DeleteApplyRecordRequest {}
+message DeleteApplyRecordReply {}
+
+message GetApplyRecordDTO {
+  int64 creationActivityId = 1;
+  string address = 2;
+}
+message GetApplyRecordVO {
+  int64 id = 1;
+  int64 creationActivityId = 2;
+  string address = 3;
+}
+
+message ListApplyRecordDTO {
+  repeated int64 creationActivityId = 1;
+  string address = 2;
+}
+message ListApplyRecordVO {
+  repeated ApplyRecordInfo applyRecordInfo = 1;
+}
+
+message ApplyRecordInfo{
+  int64 id = 1;
+  int64 creationActivityId = 2;
+  string address = 3;
+}

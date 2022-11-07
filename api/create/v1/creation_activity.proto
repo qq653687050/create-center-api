@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package api.create.v1;
 
-import "google/protobuf/timestamp.proto";
 option go_package = "create-center/api/create/v1;v1";
 option java_multiple_files = true;
 option java_package = "api.create.v1";
@@ -14,6 +13,8 @@ service CreationActivity {
   rpc DeleteCreationActivity (DeleteCreationActivityRequest) returns (DeleteCreationActivityReply);
   rpc GetCreationActivity (GetCreationActivityDTO) returns (GetCreationActivityVO);
   rpc ListCreationActivity (ListCreationActivityDTO) returns (ListCreationActivityVO);
+  rpc AddApplyNum (AddApplyNumDTO) returns (AddApplyNumVO);
+  rpc CanCreateActivityList(CanCreateActivityDTO) returns (CanCreateActivityVO);
 }
 
 message CreateCreationActivityDTO {
@@ -23,8 +24,8 @@ message CreateCreationActivityDTO {
   int32 rank = 4;
   int32 isOpen = 5;
   string surfacePlot = 6;
-  google.protobuf.Timestamp startTime = 7;
-  google.protobuf.Timestamp endTime = 8;
+  int64 startTime = 7;
+  int64 endTime = 8;
   int32 startRequired = 9;
   int32  awardRequired = 10;
   string keywordName = 11;
@@ -43,8 +44,8 @@ message UpdateCreationActivityDTO {
   optional int32 rank = 5;
   optional int32 isOpen = 6;
   optional string surfacePlot = 7;
-  google.protobuf.Timestamp startTime = 8;
-  google.protobuf.Timestamp endTime = 9;
+  optional int64 startTime = 8;
+  optional int64 endTime = 9;
   optional int32 startRequired = 10;
   optional int32  awardRequired = 11;
   optional string keywordName = 12;
@@ -69,14 +70,14 @@ message GetCreationActivityVO {
   int32 rank = 5;
   int32 isOpen = 6;
   string surfacePlot = 7;
-  string startTime = 8;
-  string endTime = 9;
+  int64 startTime = 8;
+  int64 endTime = 9;
   int32 startRequired = 10;
   int32  awardRequired = 11;
   string keywordName = 12;
   string keywordContent = 13;
   string determiner = 14;
-  string applyNum = 15;
+  int32 applyNum = 15;
 }
 
 message ListCreationActivityDTO {
@@ -101,8 +102,34 @@ message CreationActivityInfo{
   int32 rank = 5;
   int32 isOpen = 6;
   string surfacePlot = 7;
-  string startTime = 8;
-  string endTime = 9;
+  int64 startTime = 8;
+  int64 endTime = 9;
   string keywordName = 10;
   int32 applyNum = 11;
+  int32 startRequired = 12;
+  int32  awardRequired = 13;
+}
+
+message AddApplyNumDTO{
+  int64 id = 1;
+}
+
+message AddApplyNumVO{
+  bool add = 1;
+}
+
+message CanCreateActivityDTO{
+
+}
+
+message CanCreateActivityVO{
+  repeated CanCreateActivityInfo canCreateActivityInfo=1;
+}
+
+message CanCreateActivityInfo{
+  int64 id = 1;
+  string theme = 2;
+  string surfacePlot = 3;
+  string keywordContent = 4;
+  string determiner = 5;
 }
